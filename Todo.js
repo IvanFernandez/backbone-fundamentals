@@ -1,15 +1,26 @@
 'use strict';
-// Define a Todo Model
 var Todo = Backbone.Model.extend({
-  // Default todo attribute values
-  defaults: {
-    title: '',
-    completed: false
-  }
+	initialize: function() {
+		console.log('This model has been initialized.');
+		this.on('change:title', function(){
+			console.log('- Values for this model have changed.');
+		});
+		this.on('invalid', function(model, error){
+			console.log(error);
+		});
+	},
+	defaults: {
+		title: '',
+		completed: false
+	},
+	validate: function(attrs) {
+		var error = 'this is an error';
+		if (typeof attrs.completed !== 'boolean') {
+			return 'completed must be a boolean value';
+		}
+	}
 });
 
-// Instantiate the Todo Model with a title, with the completed attribute
-// defaulting to false
 var myTodo = new Todo({
-  title: 'Check attributes property of the logged models in the console.'
+	title: 'Check attributes property of the logged models in the console.'
 });
